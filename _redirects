@@ -1,0 +1,24 @@
+# BMC Capital Partners — redirecionamentos do Cloudflare Pages
+#
+# Só entram aqui as regras que o Cloudflare Pages NÃO faz sozinho.
+# O Pages já redireciona automaticamente, com 301:
+#   /index.html                     -> /
+#   /antecipacao-de-recebiveis.html -> /antecipacao-de-recebiveis
+#   /corretora-seguros.html         -> /corretora-seguros
+#   /quem-somos.html                -> /quem-somos
+#   /quem-somos/                    -> /quem-somos   (barra final de página existente)
+# Repetir essas regras aqui não traria ganho e só aumentaria a chance de conflito.
+#
+# As duas regras abaixo são necessárias porque o endereço antigo tem outro nome
+# (singular) e não corresponde a nenhum arquivo do pacote — sem elas, essas URLs
+# cairiam na página 404.
+
+/corretora-seguro     /corretora-seguros   301
+/corretora-seguro/    /corretora-seguros   301
+
+# Sem regra coringa: qualquer outra rota inexistente deve continuar caindo em
+# 404.html com status HTTP 404 real, e não ser desviada para a Home.
+#
+# O redirecionamento do domínio antigo NÃO fica aqui: é configuração de domínio,
+# feita depois por Redirect Rule no Cloudflare ou no servidor atual. Ver o guia
+# CLOUDFLARE_PUBLICACAO_PASSO_A_PASSO.md, fora do pacote.
