@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 560" role="img" aria-label="Composição gráfica: títulos e cheques convertidos em capital de giro">
+  <title>Títulos e cheques convertidos em capital de giro</title>
+  <defs>
+    <style>
+      .placa { fill: rgba(255,255,255,.05); stroke: rgba(255,255,255,.42); stroke-width: 1.75; }
+      .placa-linha { stroke: rgba(255,255,255,.34); stroke-width: 1.75; stroke-linecap: round; }
+      .seta { stroke: #d8c8b0; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .seta-2 { stroke: rgba(255,255,255,.28); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .face-topo { fill: #d8c8b0; }
+      .face-esq { fill: #0d47a1; }
+      .face-dir { fill: #185db5; }
+      .aresta { stroke: rgba(6,26,51,.35); stroke-width: 1; fill: none; }
+    </style>
+  </defs>
+
+  <!-- Três planos: títulos e cheques a receber -->
+  <g>
+    <polygon class="placa" points="220,40 366,88 220,136 74,88"/>
+    <line class="placa-linha" x1="150" y1="86" x2="214" y2="65"/>
+    <line class="placa-linha" x1="176" y1="100" x2="256" y2="74"/>
+
+    <polygon class="placa" points="220,92 366,140 220,188 74,140"/>
+    <line class="placa-linha" x1="150" y1="138" x2="214" y2="117"/>
+    <line class="placa-linha" x1="176" y1="152" x2="256" y2="126"/>
+
+    <polygon class="placa" points="220,144 366,192 220,240 74,192"/>
+    <line class="placa-linha" x1="150" y1="190" x2="214" y2="169"/>
+    <line class="placa-linha" x1="176" y1="204" x2="256" y2="178"/>
+  </g>
+
+  <!-- Chevrons: o fluxo da análise, geometria do monograma -->
+  <g>
+    <polyline class="seta-2" points="160,282 220,312 280,282"/>
+    <polyline class="seta" points="160,320 220,350 280,320"/>
+  </g>
+
+  <!-- Bloco sólido: capital de giro disponível -->
+  <g>
+    <polygon class="face-topo" points="220,392 366,440 220,488 74,440"/>
+    <polygon class="face-esq" points="74,440 220,488 220,548 74,500"/>
+    <polygon class="face-dir" points="220,488 366,440 366,500 220,548"/>
+    <polyline class="aresta" points="74,440 220,488 366,440"/>
+    <line class="aresta" x1="220" y1="488" x2="220" y2="548"/>
+  </g>
+</svg>
