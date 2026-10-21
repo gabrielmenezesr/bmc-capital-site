@@ -1,33 +1,63 @@
 # Site BMC Capital Partners
 
-Site institucional oficial da BMC Capital Partners.
+Site institucional da BMC Capital Partners.
 
-A empresa atua principalmente com antecipação de recebíveis e também oferece soluções por meio de sua corretora de seguros.
+- **Atividade principal:** antecipação de recebíveis
+- **Atividade secundária:** corretora de seguros
+- **Site oficial:** https://bmccapital.com.br
 
-Site oficial: [bmccapital.com.br](https://bmccapital.com.br)
+Este repositório guarda o código-fonte da versão publicada, para histórico e recuperação.
 
 ## Tecnologias
 
-- HTML semântico
+- HTML
 - CSS
 - JavaScript sem framework
-- Cloudflare Worker com ativos estáticos
+- Cloudflare Worker servindo ativos estáticos
+
+Não há build, dependências ou etapa de compilação: os arquivos do repositório são exatamente os que vão ao ar.
 
 ## Páginas
 
-- Home
-- Antecipação de Recebíveis
-- Seguros
-- A BMC
-- Página de erro 404
+| Página | URL |
+|---|---|
+| Home | `/` |
+| Antecipação de Recebíveis | `/antecipacao-de-recebiveis` |
+| Seguros | `/corretora-seguros` |
+| A BMC | `/quem-somos` |
+| Página não encontrada | `404.html` (status HTTP 404) |
+
+As URLs são servidas **sem a extensão `.html`**.
 
 ## Estrutura
 
-Os arquivos HTML estão na raiz do repositório. Estilos, scripts, imagens, logotipo e favicons ficam em `assets/`. O arquivo `_redirects` mantém os redirecionamentos necessários na hospedagem atual.
+```text
+.
+├── assets/
+│   ├── css/       folha de estilo única
+│   ├── images/    logo, favicons e fotografias
+│   └── js/        menu, carrosséis e utilidades
+├── index.html
+├── antecipacao-de-recebiveis.html
+├── corretora-seguros.html
+├── quem-somos.html
+├── 404.html
+├── robots.txt
+├── sitemap.xml
+└── _redirects
+```
+
+- Os arquivos HTML ficam na raiz.
+- Os ativos compartilhados ficam em `assets/`.
+- Os redirecionamentos ficam em `_redirects`.
+
+O CSS e o JavaScript são carregados com um sufixo de versão (`?v=AAAAMMDD`) para invalidar o cache do navegador. **Ao alterar CSS ou JavaScript, atualize esse número nas cinco páginas HTML.**
 
 ## Publicação
 
-O site de produção está hospedado na Cloudflare e usa o domínio `bmccapital.com.br`. Este repositório preserva o código versionado do site. Alterações futuras devem ser testadas antes de uma nova publicação.
+A produção atual está na Cloudflare, no domínio oficial https://bmccapital.com.br, servida por um Worker da Cloudflare.
+
+Este repositório **não** está conectado a nenhuma implantação automática. Alterações futuras devem ser validadas antes de qualquer publicação.
 
 ## Direitos
 

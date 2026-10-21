@@ -1,11 +1,20 @@
+# Sistema operacional
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Registros e temporários
 *.log
 *.tmp
 *.bak
+
+# Variáveis de ambiente e segredos
 .env
 .env.*
+
+# Dependências
 node_modules/
+
+# Editores
 .vscode/
 .idea/
