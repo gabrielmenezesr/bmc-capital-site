@@ -266,7 +266,6 @@ ul { margin: 0; padding: 0; }
 }
 .bmc-title { font-size: var(--bmc-size-h2); line-height: var(--bmc-leading-h2); }
 .bmc-title--h1 { font-size: var(--bmc-size-h1); line-height: var(--bmc-leading-h1); }
-.bmc-title--h3 { font-size: var(--bmc-size-h3); line-height: var(--bmc-leading-h3); }
 
 .bmc-lead {
   max-width: 38rem;
@@ -280,8 +279,6 @@ ul { margin: 0; padding: 0; }
   margin: 0;
   color: var(--bmc-color-text-muted);
 }
-.bmc-copy--strong { color: var(--bmc-color-text); }
-.bmc-copy--small { font-size: var(--bmc-size-small); }
 .bmc-copy + .bmc-copy { margin-top: var(--bmc-space-4); }
 
 /* ============================================================
@@ -370,7 +367,6 @@ ul { margin: 0; padding: 0; }
 .bmc-link:hover { color: var(--bmc-blue-600); border-bottom-color: currentColor; }
 .bmc-link--on-dark { color: var(--bmc-white); }
 .bmc-link--on-dark:hover { color: var(--bmc-mist-100); }
-.bmc-link--small { font-size: var(--bmc-size-small); }
 
 .bmc-actions { display: flex; flex-wrap: wrap; gap: var(--bmc-space-3); }
 
@@ -513,59 +509,6 @@ ul { margin: 0; padding: 0; }
   font-size: var(--bmc-size-small);
 }
 
-/* Bloco de marca: área plana navy com filete areia */
-.bmc-hero__statement {
-  align-self: stretch;
-  display: grid;
-  align-content: end;
-  padding: var(--bmc-space-16);
-  background: var(--bmc-navy-950);
-  color: var(--bmc-white);
-  border-left: 0.5rem solid var(--bmc-blue-600);
-}
-.bmc-hero__statement-mark {
-  display: block;
-  font-family: var(--bmc-font-display);
-  font-size: clamp(3.5rem, 7vw, 6.5rem);
-  font-weight: var(--bmc-weight-semibold);
-  line-height: 0.9;
-  letter-spacing: var(--bmc-tracking-display);
-}
-.bmc-hero__statement-text {
-  max-width: 24rem;
-  margin-top: var(--bmc-space-8);
-  color: var(--bmc-on-dark);
-}
-
-/* ============================================================
-   8. LISTA EDITORIAL DE SERVIÇOS (sem card wall)
-   ============================================================ */
-.bmc-service-list { border-top: 1px solid var(--bmc-color-border); }
-
-.bmc-service {
-  display: grid;
-  grid-template-columns: 4rem minmax(12rem, 4fr) 6fr auto;
-  gap: var(--bmc-space-6);
-  align-items: baseline;
-  padding-block: var(--bmc-space-8);
-  border-bottom: 1px solid var(--bmc-color-border);
-}
-.bmc-service__number {
-  color: var(--bmc-blue-700);
-  font-family: var(--bmc-font-display);
-  font-size: 1.25rem;
-}
-.bmc-service h3 {
-  margin: 0;
-  color: var(--bmc-navy-900);
-  font-family: var(--bmc-font-display);
-  font-size: var(--bmc-size-h3);
-  line-height: var(--bmc-leading-h3);
-  font-weight: var(--bmc-weight-semibold);
-  letter-spacing: var(--bmc-tracking-display);
-}
-.bmc-service p { margin: 0; color: var(--bmc-slate-600); }
-
 /* ============================================================
    9. RODAPÉ
    ============================================================ */
@@ -645,14 +588,7 @@ ul { margin: 0; padding: 0; }
 @media (max-width: 800px) {
   .bmc-hero__grid { grid-template-columns: 1fr; }
   .bmc-hero__copy { padding: var(--bmc-space-16) 0; gap: var(--bmc-space-6); }
-  .bmc-hero__statement {
-    padding: var(--bmc-space-8);
-    border-left-width: 0.35rem;
-  }
   .bmc-section__intro { grid-template-columns: 1fr; gap: var(--bmc-space-6); margin-bottom: var(--bmc-space-12); }
-  .bmc-service { grid-template-columns: 2.5rem 1fr; gap: var(--bmc-space-3) var(--bmc-space-4); }
-  .bmc-service p,
-  .bmc-service .bmc-link { grid-column: 2; }
   .bmc-footer__grid { grid-template-columns: 1fr; gap: var(--bmc-space-8); }
 }
 
@@ -672,363 +608,6 @@ ul { margin: 0; padding: 0; }
 }
 
 /* ============================================================
-   11. PONTE TEMPORÁRIA — seções ainda não migradas
-   ------------------------------------------------------------
-   As seções abaixo continuam com a marcação da V1 e serão
-   refeitas nas Fases 4 e 5. Aqui elas apenas herdam a fundação
-   visual: nova paleta, nova tipografia, raio 4px, sem sombra,
-   sem pílula e sem ícone dentro de quadrado azul.
-   ============================================================ */
-.container {
-  width: min(100% - (2 * var(--bmc-gutter)), var(--bmc-container));
-  margin-inline: auto;
-}
-.container--estreito { max-width: 54rem; }
-
-.secao { padding-block: var(--bmc-section); }
-.secao--alt { background: var(--bmc-mist-100); }
-
-.secao__cabecalho { max-width: 42rem; margin-bottom: var(--bmc-space-12); }
-/* Sem títulos centralizados (proibição do design system) */
-.secao__cabecalho--centro { margin-inline: 0; text-align: left; }
-
-.rotulo {
-  display: inline-block;
-  margin-bottom: var(--bmc-space-3);
-  color: var(--bmc-blue-700);
-  font-family: var(--bmc-font-body);
-  font-size: var(--bmc-size-eyebrow);
-  font-weight: var(--bmc-weight-semibold);
-  letter-spacing: var(--bmc-tracking-eyebrow);
-  text-transform: uppercase;
-}
-
-.secao h2 {
-  font-family: var(--bmc-font-display);
-  font-size: var(--bmc-size-h2);
-  line-height: var(--bmc-leading-h2);
-  font-weight: var(--bmc-weight-semibold);
-  color: var(--bmc-color-heading);
-}
-.secao h3 {
-  font-family: var(--bmc-font-display);
-  font-size: var(--bmc-size-h3);
-  line-height: var(--bmc-leading-h3);
-}
-.secao p { margin: 0 0 var(--bmc-space-4); }
-.secao__lead {
-  color: var(--bmc-color-text-muted);
-  font-size: var(--bmc-size-lead);
-  line-height: var(--bmc-leading-lead);
-  max-width: 38rem;
-}
-
-.grade-2, .grade-3 { display: grid; gap: var(--bmc-grid-gap); }
-.grade-2 { grid-template-columns: repeat(2, 1fr); }
-.grade-3 { grid-template-columns: repeat(3, 1fr); }
-
-.duas-colunas {
-  display: grid;
-  grid-template-columns: 7fr 5fr;
-  gap: var(--bmc-space-16);
-  align-items: start;
-}
-
-/* Botões legados adotam o desenho do design system */
-.btn {
-  min-height: 3rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--bmc-space-2);
-  padding: 0.75rem 1.25rem;
-  border: 1px solid var(--bmc-color-action);
-  border-radius: var(--bmc-radius-2);
-  background: var(--bmc-color-action);
-  color: var(--bmc-white);
-  font-family: var(--bmc-font-body);
-  font-size: var(--bmc-size-body);
-  font-weight: var(--bmc-weight-semibold);
-  line-height: var(--bmc-leading-tight);
-  text-decoration: none;
-  cursor: pointer;
-  transition: var(--bmc-transition-hover);
-}
-.btn--primario:hover {
-  background: var(--bmc-color-action-hover);
-  border-color: var(--bmc-color-action-hover);
-  color: var(--bmc-white);
-}
-.btn--contorno {
-  background: transparent;
-  border-color: var(--bmc-navy-900);
-  color: var(--bmc-navy-900);
-}
-.btn--contorno:hover {
-  background: var(--bmc-navy-900);
-  border-color: var(--bmc-navy-900);
-  color: var(--bmc-white);
-}
-.btn--claro {
-  background: var(--bmc-white);
-  border-color: var(--bmc-white);
-  color: var(--bmc-navy-950);
-}
-.btn--claro:hover { background: var(--bmc-mist-100); border-color: var(--bmc-mist-100); }
-.btn--claro-contorno {
-  background: transparent;
-  border-color: rgba(255, 255, 255, 0.5);
-  color: var(--bmc-white);
-}
-.btn--claro-contorno:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--bmc-white); }
-
-.grupo-botoes { display: flex; flex-wrap: wrap; gap: var(--bmc-space-3); }
-.grupo-botoes--centro { justify-content: flex-start; margin-top: var(--bmc-space-12); }
-
-.link-seta {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--bmc-space-2);
-  color: var(--bmc-blue-700);
-  font-weight: var(--bmc-weight-semibold);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: var(--bmc-transition-hover);
-}
-.link-seta:hover { color: var(--bmc-blue-600); border-bottom-color: currentColor; }
-
-/* Cards legados: borda 1px, raio 4px, sem sombra */
-.cartao {
-  display: flex;
-  flex-direction: column;
-  padding: var(--bmc-space-6);
-  border: var(--bmc-border);
-  border-radius: var(--bmc-radius-2);
-  background: var(--bmc-white);
-}
-.cartao h3 { margin: 0 0 var(--bmc-space-3); }
-.cartao p { margin: 0; color: var(--bmc-slate-600); }
-.cartao--produto p { margin-bottom: var(--bmc-space-6); }
-.cartao--produto .link-seta { margin-top: auto; }
-.cartao--compacto {
-  flex-direction: row;
-  align-items: center;
-  gap: var(--bmc-space-4);
-  text-decoration: none;
-  color: inherit;
-}
-.cartao--compacto h3 { margin: 0; font-size: var(--bmc-size-h3); }
-.cartao--compacto .icone--seta { margin-left: auto; color: var(--bmc-blue-700); }
-
-/* Ícone sem quadrado azul-claro atrás (proibição do design system) */
-.chip-icone {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  height: auto;
-  margin-bottom: var(--bmc-space-4);
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--bmc-blue-700);
-}
-.chip-icone .icone { width: 1.5rem; height: 1.5rem; }
-
-/* Ícones legados herdam o traço 1,75 do sistema */
-.icone {
-  width: 1.25rem;
-  height: 1.25rem;
-  flex: none;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.75;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* Pílulas viram marcadores editoriais planos */
-.destaques-linha {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--bmc-space-6);
-  margin: var(--bmc-space-6) 0;
-  padding: 0;
-  list-style: none;
-}
-.destaques-linha li {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--bmc-space-2);
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--bmc-navy-900);
-  font-size: var(--bmc-size-small);
-  font-weight: var(--bmc-weight-semibold);
-}
-.destaques-linha .icone { color: var(--bmc-blue-700); }
-
-.valores-lista {
-  display: grid;
-  gap: var(--bmc-space-3);
-  margin-top: var(--bmc-space-4);
-  list-style: none;
-}
-.valores-lista li {
-  padding: 0 0 var(--bmc-space-3);
-  border: 0;
-  border-bottom: 1px solid var(--bmc-color-border);
-  border-radius: 0;
-  background: transparent;
-  color: var(--bmc-navy-900);
-  font-size: var(--bmc-size-body);
-  font-weight: var(--bmc-weight-medium);
-}
-
-/* Painel do portal de negócios */
-.painel-portal {
-  padding: var(--bmc-space-8);
-  border: var(--bmc-border);
-  border-radius: var(--bmc-radius-2);
-  background: var(--bmc-white);
-  box-shadow: none;
-}
-.painel-portal h3 {
-  display: flex;
-  align-items: center;
-  gap: var(--bmc-space-3);
-  margin-bottom: var(--bmc-space-3);
-}
-.painel-portal h3 .icone { color: var(--bmc-blue-700); }
-.painel-portal > p { color: var(--bmc-slate-600); }
-
-.lista-check {
-  display: grid;
-  gap: var(--bmc-space-3);
-  margin-top: var(--bmc-space-6);
-  list-style: none;
-}
-.lista-check li {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--bmc-space-3);
-}
-.lista-check .icone {
-  margin-top: 0.2em;
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
-  color: var(--bmc-blue-700);
-}
-
-/* Faixa final de contato: cor plana, sem gradiente */
-.faixa-contato {
-  padding-block: var(--bmc-section);
-  background: var(--bmc-navy-950);
-  color: var(--bmc-white);
-}
-.faixa-contato__inner {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--bmc-space-8);
-}
-.faixa-contato h2 {
-  margin-bottom: var(--bmc-space-3);
-  color: var(--bmc-white);
-  font-family: var(--bmc-font-display);
-  font-size: var(--bmc-size-h2);
-  line-height: var(--bmc-leading-h2);
-}
-.faixa-contato p { margin: 0; max-width: 42ch; color: var(--bmc-on-dark); }
-
-/* Hero das páginas internas */
-.hero-interno {
-  padding-block: var(--bmc-space-24) var(--bmc-space-16);
-  background: var(--bmc-mist-100);
-  border-bottom: var(--bmc-border);
-}
-.hero-interno h1 {
-  margin-bottom: var(--bmc-space-6);
-  font-size: var(--bmc-size-h1);
-  line-height: var(--bmc-leading-h1);
-}
-.hero-interno p {
-  max-width: 42rem;
-  margin: 0;
-  color: var(--bmc-color-text-muted);
-  font-size: var(--bmc-size-lead);
-  line-height: var(--bmc-leading-lead);
-}
-
-/* Marcos (Quem Somos) — vira linha do tempo com filete areia */
-.marcos {
-  display: grid;
-  gap: 0;
-  border-left: var(--bmc-rule-accent);
-}
-.marco {
-  display: grid;
-  gap: var(--bmc-space-2);
-  padding: 0 0 var(--bmc-space-8) var(--bmc-space-8);
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-.marco__ano {
-  color: var(--bmc-navy-900);
-  font-family: var(--bmc-font-display);
-  font-size: clamp(2rem, 3.4vw, 2.75rem);
-  font-weight: var(--bmc-weight-semibold);
-  line-height: 1;
-  letter-spacing: var(--bmc-tracking-display);
-}
-.marco h3 { margin: 0; font-size: var(--bmc-size-h3); }
-.marco p { margin: 0; max-width: 34ch; color: var(--bmc-slate-600); }
-
-/* Página 404 */
-.secao--erro {
-  display: flex;
-  align-items: center;
-  min-height: 60vh;
-  text-align: left;
-  background: var(--bmc-mist-100);
-}
-.secao--erro .container { max-width: 40rem; }
-.erro-codigo {
-  margin-bottom: var(--bmc-space-4);
-  color: var(--bmc-blue-700);
-  font-family: var(--bmc-font-display);
-  font-size: clamp(3rem, 8vw, 5rem);
-  font-weight: var(--bmc-weight-semibold);
-  line-height: 1;
-  letter-spacing: var(--bmc-tracking-display);
-  opacity: 1;
-}
-.secao--erro h1 { margin-bottom: var(--bmc-space-4); font-size: var(--bmc-size-h1); line-height: var(--bmc-leading-h1); }
-.secao--erro p { color: var(--bmc-color-text-muted); font-size: var(--bmc-size-lead); margin-bottom: var(--bmc-space-8); }
-.secao--erro .grupo-botoes { justify-content: flex-start; }
-
-/* Conteúdo sempre visível: sem revelação por rolagem */
-.revelar { opacity: 1 !important; translate: none !important; }
-
-@media (max-width: 900px) {
-  .grade-3 { grid-template-columns: repeat(2, 1fr); }
-  .duas-colunas { grid-template-columns: 1fr; gap: var(--bmc-space-12); }
-}
-@media (max-width: 620px) {
-  .grade-2, .grade-3 { grid-template-columns: 1fr; }
-}
-@media (max-width: 800px) {
-  .btn, .grupo-botoes .btn { min-height: var(--bmc-touch-min); }
-  .link-seta { min-height: var(--bmc-touch-min); align-items: center; }
-}
-
-/* ============================================================
    12. COMPONENTES DA HOME E DA PÁGINA DE ANTECIPAÇÃO
    ============================================================ */
 
@@ -1040,8 +619,6 @@ ul { margin: 0; padding: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .bmc-anima { animation: bmc-sobe 0.55s var(--bmc-ease) backwards; }
   .bmc-anima--d1 { animation-delay: 0.07s; }
-  .bmc-anima--d2 { animation-delay: 0.14s; }
-  .bmc-anima--d3 { animation-delay: 0.21s; }
 
   /* Entrada do hero: CSS puro, não depende de JS */
   .bmc-hero__copy > * { animation: bmc-sobe 0.6s var(--bmc-ease) backwards; }
@@ -1049,7 +626,6 @@ ul { margin: 0; padding: 0; }
   .bmc-hero__copy > *:nth-child(3) { animation-delay: 0.12s; }
   .bmc-hero__copy > *:nth-child(4) { animation-delay: 0.18s; }
   .bmc-hero__copy > *:nth-child(5) { animation-delay: 0.24s; }
-  .bmc-hero__arte { animation: bmc-entra 0.8s var(--bmc-ease) 0.15s backwards; }
 
   /* Nenhum quadro anima opacidade: mesmo com a animação pausada
      (aba em segundo plano) o conteúdo continua legível — no máximo
@@ -1063,57 +639,6 @@ ul { margin: 0; padding: 0; }
     to { transform: none; }
   }
 }
-
-/* ---------- 12.2 Hero da Home com composição gráfica ---------- */
-.bmc-hero__arte {
-  align-self: stretch;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--bmc-space-12) var(--bmc-space-8);
-  background: var(--bmc-navy-950);
-  border-left: 0.5rem solid var(--bmc-blue-600);
-}
-.bmc-hero__arte img { width: 100%; max-width: 20rem; height: auto; }
-
-/* ---------- 12.3 Faixa de confiança ---------- */
-.bmc-confianca {
-  padding-block: var(--bmc-space-8);
-  background: var(--bmc-white);
-  border-bottom: var(--bmc-border);
-}
-.bmc-confianca__lista {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--bmc-space-6);
-  list-style: none;
-}
-.bmc-confianca__lista li {
-  display: flex;
-  align-items: center;
-  gap: var(--bmc-space-3);
-  color: var(--bmc-navy-900);
-  font-size: var(--bmc-size-small);
-  font-weight: var(--bmc-weight-medium);
-  line-height: 1.35;
-}
-.bmc-confianca__lista .bmc-icon { color: var(--bmc-blue-700); width: 1.35rem; height: 1.35rem; }
-
-/* ---------- 12.4 Bloco de destaque (antecipação na Home) ---------- */
-.bmc-destaque {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: var(--bmc-space-16);
-  align-items: center;
-}
-.bmc-destaque__texto { display: grid; gap: var(--bmc-space-6); align-content: start; }
-.bmc-destaque__arte {
-  padding: var(--bmc-space-8);
-  background: var(--bmc-white);
-  border: var(--bmc-border);
-  border-radius: var(--bmc-radius-2);
-}
-.bmc-destaque__arte img { width: 100%; height: auto; }
 
 /* ---------- 12.5 Jornadas (prévia de como funciona) ---------- */
 .bmc-jornadas {
@@ -1267,35 +792,6 @@ ul { margin: 0; padding: 0; }
 .bmc-seguro p { margin: 0 0 var(--bmc-space-3); color: var(--bmc-slate-600); font-size: var(--bmc-size-small); }
 .bmc-seguro .bmc-link { margin-top: auto; font-size: var(--bmc-size-small); }
 
-/* ---------- 12.7 Cards do Portal de Negócios ---------- */
-.bmc-portal {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--bmc-space-4);
-}
-.bmc-portal__item {
-  display: grid;
-  gap: var(--bmc-space-3);
-  align-content: start;
-  padding: var(--bmc-space-6);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: var(--bmc-radius-2);
-  transition: border-color var(--bmc-duration-base) var(--bmc-ease),
-              background-color var(--bmc-duration-base) var(--bmc-ease);
-}
-.bmc-portal__item:hover {
-  border-color: var(--bmc-mist-100);
-  background: rgba(255, 255, 255, 0.04);
-}
-.bmc-portal__item .bmc-icon { width: 1.5rem; height: 1.5rem; color: var(--bmc-mist-100); }
-.bmc-portal__item h3 {
-  color: var(--bmc-white);
-  font-size: 1.0625rem;
-  line-height: var(--bmc-leading-h3);
-}
-/* O item ocupa duas colunas para quebrar a grade uniforme */
-.bmc-portal__item--largo { grid-column: span 2; }
-
 /* ---------- 12.8 Processo com progresso na rolagem ---------- */
 .bmc-processo { position: relative; display: grid; gap: 0; }
 .bmc-processo__trilho {
@@ -1347,7 +843,6 @@ ul { margin: 0; padding: 0; }
 .bmc-etapa__corpo { display: grid; gap: var(--bmc-space-2); align-content: start; }
 .bmc-etapa h3 { font-size: var(--bmc-size-h3); line-height: var(--bmc-leading-h3); }
 .bmc-etapa p { margin: 0; max-width: 52ch; color: var(--bmc-slate-600); }
-.bmc-secao--paper .bmc-etapa__marca { background: var(--bmc-mist-100); }
 
 /* ---------- 12.9 Aviso editorial (regra da análise) ---------- */
 .bmc-aviso {
@@ -1366,23 +861,6 @@ ul { margin: 0; padding: 0; }
 }
 
 /* ---------- 12.9b Lista de diferenciais em duas colunas ---------- */
-.bmc-lista-dupla {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 var(--bmc-space-12);
-  list-style: none;
-  border-top: 1px solid var(--bmc-color-border);
-}
-.bmc-lista-dupla li {
-  display: flex;
-  align-items: center;
-  gap: var(--bmc-space-3);
-  padding-block: var(--bmc-space-4);
-  border-bottom: 1px solid var(--bmc-color-border);
-  color: var(--bmc-navy-900);
-  font-weight: var(--bmc-weight-medium);
-}
-.bmc-lista-dupla .bmc-icon { color: var(--bmc-blue-700); }
 
 /* ---------- 12.10 Acordeão de perguntas frequentes ---------- */
 .bmc-faq { border-top: 1px solid var(--bmc-color-border); }
@@ -1424,34 +902,13 @@ ul { margin: 0; padding: 0; }
 }
 
 /* ---------- 12.11 Responsivo dos novos componentes ---------- */
-@media (max-width: 1000px) {
-  .bmc-confianca__lista { grid-template-columns: repeat(3, 1fr); gap: var(--bmc-space-4); }
-  .bmc-portal { grid-template-columns: repeat(2, 1fr); }
-  .bmc-portal__item--largo { grid-column: span 2; }
-}
 
 @media (max-width: 800px) {
-  .bmc-hero__arte {
-    padding: var(--bmc-space-8);
-    border-left-width: 0.35rem;
-  }
-  .bmc-hero__arte img { max-width: 14rem; }
-  .bmc-destaque { grid-template-columns: 1fr; gap: var(--bmc-space-8); }
-  .bmc-destaque__arte { padding: var(--bmc-space-6); overflow-x: auto; }
-  .bmc-destaque__arte img { min-width: 34rem; }
   .bmc-jornadas { grid-template-columns: 1fr; gap: var(--bmc-space-8); }
   .bmc-carrossel__topo { flex-direction: column; align-items: flex-start; }
   .bmc-aviso { padding: var(--bmc-space-6); }
   .bmc-faq summary { font-size: 1.0625rem; }
-  .bmc-lista-dupla { grid-template-columns: 1fr; gap: 0; }
-}
-
-@media (max-width: 560px) {
-  .bmc-confianca__lista { grid-template-columns: 1fr 1fr; }
-  .bmc-portal { grid-template-columns: 1fr; }
-  .bmc-portal__item--largo { grid-column: span 1; }
-}
-
+  }
 
 /* ============================================================
    13. FOTOGRAFIA E COMPOSIÇÕES
