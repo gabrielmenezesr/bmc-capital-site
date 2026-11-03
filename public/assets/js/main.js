@@ -1,7 +1,7 @@
 /* ============================================================
    BMC Capital Partners — Site institucional V2
-   main.js — menu móvel, ano do rodapé, revelação moderada,
-   carrossel manual e progresso do processo.
+   main.js — menu móvel, ano do rodapé, carrossel manual
+   e progresso do processo.
    JavaScript puro, sem dependências.
 
    Regra de movimento: nada essencial depende de animação.
@@ -12,11 +12,6 @@
   "use strict";
 
   var movimentoReduzido = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  // A classe "js" é o que autoriza o estado inicial invisível dos elementos
-  // animados. Ela só é aplicada mais abaixo, depois que o observador de
-  // rolagem existe de fato — assim, qualquer falha antes disso deixa o
-  // conteúdo visível em vez de escondê-lo para sempre.
 
   /* ---------- Menu móvel ---------- */
   var botaoMenu = document.querySelector(".bmc-menu-toggle");
