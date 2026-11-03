@@ -37,22 +37,30 @@ for p in $PAGINAS; do
   grep -q '<title>[^<]' "$arq" || falha "$p: falta <title>"
   grep -q '<meta name="description" content="[^"]' "$arq" || falha "$p: falta meta description"
   if grep -qE '(href|src)="http://' "$arq"; then falha "$p: link inseguro http://"; fi
-  sem_rel=$(grep -oE '<a [^>]*target="_blank"[^>]*>' "$arq" | grep -v 'rel="[^"]*noopener' | wc -l)
+  sem_rel=$(tr '\n' ' ' < "$arq" | grep -oE '<a [^>]*target="_blank"[^>]*>' | grep -v 'rel="[^"]*noopener' | wc -l)
   [ "$sem_rel" -eq 0 ] || falha "$p: $sem_rel link(s) em nova aba sem rel=noopener"
 done
 
 # 5. Todo link e ativo interno aponta para um arquivo que existe
+# Lista de arquivos montada uma vez. A busca diferencia maiúsculas como o
+# servidor da Cloudflare (o sistema de arquivos do Windows não diferencia).
+declare -A ARQUIVOS
+while IFS= read -r f; do ARQUIVOS["${f#"$PUB"}"]=1; done < <(find "$PUB" -type f)
+existe() { [ -n "${ARQUIVOS[$1]+x}" ]; }
 resolve() {
   local u="${1%%[?#]*}"
   [ "$u" = "/" ] && u="/index.html"
-  [ -f "$PUB$u" ] || [ -f "$PUB$u.html" ]
+  [ "$u" != "/" ] && u="${u%/}"
+  existe "$u" || existe "$u.html"
 }
 for p in $PAGINAS; do
   arq="$PUB/$p"
   [ -f "$arq" ] || continue
-  refs=$( { grep -oE '(href|src)="/[^/"][^"]*"' "$arq" | sed -E 's/^[a-z]+="//; s/"$//'
-            grep -oE '(href|src)="/"' "$arq" | sed -E 's/^[a-z]+="//; s/"$//'
-            grep -oE 'srcset="[^"]*"' "$arq" | sed -E 's/^srcset="//; s/"$//' | tr ',' '\n' | awk '{print $1}' | grep '^/'
+  # a página é lida inteira (atributos como srcset ocupam várias linhas)
+  conteudo=$(tr '\n' ' ' < "$arq")
+  refs=$( { printf '%s' "$conteudo" | grep -oE '(href|src)="/[^/"][^"]*"' | sed -E 's/^[a-z]+="//; s/"$//'
+            printf '%s' "$conteudo" | grep -oE '(href|src)="/"' | sed -E 's/^[a-z]+="//; s/"$//'
+            printf '%s' "$conteudo" | grep -oE 'srcset="[^"]*"' | sed -E 's/^srcset="//; s/"$//' | tr ',' '\n' | awk '{print $1}' | grep '^/'
           } | sort -u )
   for u in $refs; do
     resolve "$u" || falha "$p: link interno quebrado: $u"
@@ -121,6 +129,14 @@ cor_paginas=$(grep -ohE '<meta name="theme-color" content="#[0-9A-Fa-f]{6}"' $PU
 cor_manifesto=$(grep -oE '"theme_color": "#[0-9A-Fa-f]{6}"' "$MANIFESTO" | grep -oE '#[0-9A-Fa-f]{6}')
 [ "$(echo "$cor_paginas" | wc -l)" -eq 1 ] || falha "theme-color diferente entre páginas: $(echo $cor_paginas)"
 [ "$cor_paginas" = "$cor_manifesto" ] || falha "theme_color do manifesto ($cor_manifesto) diferente do das páginas ($cor_paginas)"
+
+# 10. Todo redirecionamento leva a uma página que existe
+while read -r origem destino status _; do
+  case "$origem" in ''|\#*) continue ;; esac
+  resolve "$destino" || falha "_redirects: $origem aponta para $destino, que não existe"
+  case "$status" in 301|302|307|308) ;; *) falha "_redirects: $origem com status inválido '$status'" ;; esac
+  if resolve "$origem"; then falha "_redirects: $origem é uma página que existe e seria desviada"; fi
+done < "$PUB/_redirects"
 
 if [ "$ERROS" -gt 0 ]; then
   echo "VERIFICAÇÃO REPROVADA: $ERROS erro(s). Nada foi publicado."

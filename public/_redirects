@@ -1,24 +1,32 @@
-# BMC Capital Partners — redirecionamentos do Cloudflare Pages
+# BMC Capital Partners — redirecionamentos
 #
-# Só entram aqui as regras que o Cloudflare Pages NÃO faz sozinho.
-# O Pages já redireciona automaticamente, com 301:
-#   /index.html                     -> /
-#   /antecipacao-de-recebiveis.html -> /antecipacao-de-recebiveis
-#   /corretora-seguros.html         -> /corretora-seguros
-#   /quem-somos.html                -> /quem-somos
-#   /quem-somos/                    -> /quem-somos   (barra final de página existente)
-# Repetir essas regras aqui não traria ganho e só aumentaria a chance de conflito.
+# A Cloudflare já redireciona sozinha (com 307) as variações de páginas que
+# existem: /index.html -> /, /quem-somos.html -> /quem-somos e
+# /quem-somos/ -> /quem-somos. Essas não precisam de regra aqui.
 #
-# As duas regras abaixo são necessárias porque o endereço antigo tem outro nome
-# (singular) e não corresponde a nenhum arquivo do pacote — sem elas, essas URLs
-# cairiam na página 404.
+# Sem regra coringa: qualquer outra rota inexistente continua caindo na
+# página 404 com status 404 real, sem ser desviada para a Home.
 
+# Endereço antigo da página de seguros (singular)
 /corretora-seguro     /corretora-seguros   301
 /corretora-seguro/    /corretora-seguros   301
 
-# Sem regra coringa: qualquer outra rota inexistente deve continuar caindo em
-# 404.html com status HTTP 404 real, e não ser desviada para a Home.
-#
-# O redirecionamento do domínio antigo NÃO fica aqui: é configuração de domínio,
-# feita depois por Redirect Rule no Cloudflare ou no servidor atual. Ver o guia
-# CLOUDFLARE_PUBLICACAO_PASSO_A_PASSO.md, fora do pacote.
+# Nomes do menu digitados como endereço
+/seguros              /corretora-seguros            301
+/antecipacao          /antecipacao-de-recebiveis    301
+/a-bmc                /quem-somos                   301
+
+# Endereços digitados com letra maiúscula (o servidor diferencia maiúsculas)
+/Quem-Somos                   /quem-somos                   301
+/Quem-somos                   /quem-somos                   301
+/QUEM-SOMOS                   /quem-somos                   301
+/Corretora-Seguros            /corretora-seguros            301
+/Corretora-seguros            /corretora-seguros            301
+/CORRETORA-SEGUROS            /corretora-seguros            301
+/Antecipacao-De-Recebiveis    /antecipacao-de-recebiveis    301
+/Antecipacao-de-Recebiveis    /antecipacao-de-recebiveis    301
+/Antecipacao-de-recebiveis    /antecipacao-de-recebiveis    301
+/ANTECIPACAO-DE-RECEBIVEIS    /antecipacao-de-recebiveis    301
+/Seguros                      /corretora-seguros            301
+/Antecipacao                  /antecipacao-de-recebiveis    301
+/A-BMC                        /quem-somos                   301
