@@ -60,7 +60,7 @@ O CSS e o JavaScript são carregados com um sufixo de versão (`?v=AAAAMMDD`) pa
 
 A produção está na Cloudflare, no domínio oficial https://bmccapital.com.br.
 
-**Cada commit na branch `main` é publicado automaticamente** pela Cloudflare (Workers Builds), em cerca de um minuto. Por isso, toda alteração deve ser validada antes de chegar à `main`.
+**Cada commit na branch `main` é publicado automaticamente** pela Cloudflare (Workers Builds), em cerca de um minuto. Por isso, toda alteração deve ser validada antes de chegar à `main`. A publicação automática foi ligada em 03/11/2026.
 
 A configuração de publicação fica em `wrangler.jsonc`. O domínio é gerenciado pelo painel da Cloudflare, não por este arquivo.
 
