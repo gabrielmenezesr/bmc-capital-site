@@ -6,3 +6,8 @@
   Content-Security-Policy: frame-ancestors 'none'
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+
+# Fontes não mudam de conteúdo: o navegador guarda por um ano sem perguntar
+# de novo ao servidor. Se uma fonte for trocada, use um nome de arquivo novo.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
