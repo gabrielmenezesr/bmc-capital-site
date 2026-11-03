@@ -18,3 +18,7 @@ node_modules/
 # Editores
 .vscode/
 .idea/
+
+# Arquivos locais do Wrangler (Cloudflare)
+.wrangler/
+.dev.vars*

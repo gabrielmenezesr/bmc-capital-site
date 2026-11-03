@@ -15,7 +15,7 @@ Este repositório guarda o código-fonte da versão publicada, para histórico e
 - JavaScript sem framework
 - Cloudflare Worker servindo ativos estáticos
 
-Não há build, dependências ou etapa de compilação: os arquivos do repositório são exatamente os que vão ao ar.
+Não há build, dependências ou etapa de compilação: os arquivos da pasta `public/` são exatamente os que vão ao ar.
 
 ## Páginas
 
@@ -33,31 +33,38 @@ As URLs são servidas **sem a extensão `.html`**.
 
 ```text
 .
-├── assets/
-│   ├── css/       folha de estilo única
-│   ├── images/    logo, favicons e fotografias
-│   └── js/        menu, carrosséis e utilidades
-├── index.html
-├── antecipacao-de-recebiveis.html
-├── corretora-seguros.html
-├── quem-somos.html
-├── 404.html
-├── robots.txt
-├── sitemap.xml
-└── _redirects
+├── public/            tudo o que vai ao ar
+│   ├── assets/
+│   │   ├── css/       folha de estilo única
+│   │   ├── images/    logo, favicons e fotografias
+│   │   └── js/        menu, carrosséis e utilidades
+│   ├── index.html
+│   ├── antecipacao-de-recebiveis.html
+│   ├── corretora-seguros.html
+│   ├── quem-somos.html
+│   ├── 404.html
+│   ├── robots.txt
+│   ├── sitemap.xml
+│   └── _redirects
+├── wrangler.jsonc     configuração de publicação na Cloudflare
+└── README.md
 ```
 
-- Os arquivos HTML ficam na raiz.
-- Os ativos compartilhados ficam em `assets/`.
-- Os redirecionamentos ficam em `_redirects`.
+- Os arquivos HTML ficam na raiz de `public/`.
+- Os ativos compartilhados ficam em `public/assets/`.
+- Os redirecionamentos ficam em `public/_redirects`.
 
 O CSS e o JavaScript são carregados com um sufixo de versão (`?v=AAAAMMDD`) para invalidar o cache do navegador. **Ao alterar CSS ou JavaScript, atualize esse número nas cinco páginas HTML.**
 
 ## Publicação
 
-A produção atual está na Cloudflare, no domínio oficial https://bmccapital.com.br, servida por um Worker da Cloudflare.
+A produção está na Cloudflare, no domínio oficial https://bmccapital.com.br.
 
-Este repositório **não** está conectado a nenhuma implantação automática. Alterações futuras devem ser validadas antes de qualquer publicação.
+**Cada commit na branch `main` é publicado automaticamente** pela Cloudflare (Workers Builds), em cerca de um minuto. Por isso, toda alteração deve ser validada antes de chegar à `main`.
+
+A configuração de publicação fica em `wrangler.jsonc`. O domínio é gerenciado pelo painel da Cloudflare, não por este arquivo.
+
+Para voltar a uma versão anterior: no painel da Cloudflare, abra o Worker, vá em **Deployments** e use **Rollback**.
 
 ## Direitos
 

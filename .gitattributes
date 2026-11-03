@@ -7,6 +7,7 @@
 *.txt  text eol=lf
 *.xml  text eol=lf
 *.json text eol=lf
+*.jsonc text eol=lf
 
 # Demais arquivos de texto do site, para que um clone reproduza
 # exatamente os bytes publicados (LF, nunca CRLF).

@@ -1,0 +1,17 @@
+// Publicação do site na Cloudflare (Workers Builds).
+// Cada commit na branch main publica a pasta public/ em https://bmccapital.com.br.
+{
+  // Precisa ser igual ao nome do Worker no painel da Cloudflare.
+  "name": "billowing-term-57ef",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    // Só esta pasta vai ao ar. README, configuração e .git ficam de fora.
+    "directory": "./public",
+    // Rota inexistente devolve public/404.html com status HTTP 404 real.
+    "not_found_handling": "404-page",
+    // /pagina.html e /pagina/ redirecionam para /pagina.
+    "html_handling": "auto-trailing-slash"
+  }
+  // Sem "routes" de propósito: o domínio bmccapital.com.br continua
+  // gerenciado pelo painel da Cloudflare e a publicação não mexe nele.
+}
