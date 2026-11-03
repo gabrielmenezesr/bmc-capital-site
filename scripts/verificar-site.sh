@@ -140,6 +140,17 @@ while read -r origem destino status _; do
   if resolve "$origem"; then falha "_redirects: $origem é uma página que existe e seria desviada"; fi
 done < "$PUB/_redirects"
 
+# 11. Fontes servidas pelo próprio site (nada de dados do visitante ao Google)
+if grep -qE 'fonts\.(googleapis|gstatic)\.com' $PUB/*.html "$PUB/assets/css/styles.css"; then
+  falha "páginas ou CSS ainda chamam o Google Fonts"
+fi
+for u in $(grep -oE 'url\(/[^)]+\)' "$PUB/assets/css/styles.css" | sed -E 's/^url\(//; s/\)$//' | sort -u); do
+  resolve "$u" || falha "styles.css: arquivo $u não existe"
+done
+for f in OFL-IBM-Plex-Sans.txt OFL-Source-Serif-4.txt; do
+  [ -f "$PUB/assets/fonts/$f" ] || falha "licença da fonte ausente: assets/fonts/$f"
+done
+
 if [ "$ERROS" -gt 0 ]; then
   echo "VERIFICAÇÃO REPROVADA: $ERROS erro(s). Nada foi publicado."
   exit 1
