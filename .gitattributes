@@ -12,6 +12,8 @@
 # Demais arquivos de texto do site, para que um clone reproduza
 # exatamente os bytes publicados (LF, nunca CRLF).
 _redirects    text eol=lf
+_headers      text eol=lf
+*.sh          text eol=lf
 *.webmanifest text eol=lf
 *.svg         text eol=lf
 
