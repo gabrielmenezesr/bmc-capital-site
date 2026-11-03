@@ -33,11 +33,12 @@ As URLs são servidas **sem a extensão `.html`**.
 
 ```text
 .
-├── public/            tudo o que vai ao ar
+├── public/                    tudo o que vai ao ar
 │   ├── assets/
-│   │   ├── css/       folha de estilo única
-│   │   ├── images/    logo, favicons e fotografias
-│   │   └── js/        menu, carrosséis e utilidades
+│   │   ├── css/               folha de estilo única
+│   │   ├── fonts/             IBM Plex Sans e Source Serif 4 (licença OFL)
+│   │   ├── images/            logo, favicons e fotografias
+│   │   └── js/                menu, carrosséis e utilidades
 │   ├── index.html
 │   ├── antecipacao-de-recebiveis.html
 │   ├── corretora-seguros.html
@@ -45,14 +46,18 @@ As URLs são servidas **sem a extensão `.html`**.
 │   ├── 404.html
 │   ├── robots.txt
 │   ├── sitemap.xml
-│   └── _redirects
-├── wrangler.jsonc     configuração de publicação na Cloudflare
+│   ├── _redirects             redirecionamentos
+│   └── _headers               cabeçalhos de segurança
+├── scripts/
+│   ├── verificar-site.sh      trava antes de publicar
+│   └── atualizar-versao.sh    versão ?v= do CSS e do JS
+├── wrangler.jsonc             configuração de publicação na Cloudflare
 └── README.md
 ```
 
 - Os arquivos HTML ficam na raiz de `public/`.
-- Os ativos compartilhados ficam em `public/assets/`.
-- Os redirecionamentos ficam em `public/_redirects`.
+- Os ativos compartilhados ficam em `public/assets/`. As fontes são servidas pelo próprio site: nenhuma visita envia dados ao Google.
+- Os redirecionamentos ficam em `public/_redirects` e os cabeçalhos de segurança em `public/_headers`.
 
 O CSS e o JavaScript são carregados com um sufixo de versão (`?v=`) igual à impressão digital do próprio arquivo, para invalidar o cache do navegador. **Ao alterar CSS ou JavaScript, rode `bash scripts/atualizar-versao.sh`**: ele atualiza as cinco páginas de uma vez.
 
@@ -66,7 +71,9 @@ O CSS e o JavaScript são carregados com um sufixo de versão (`?v=`) igual à i
 - links internos que existem e nenhum link `http://`;
 - cabeçalho, rodapé e botão de WhatsApp iguais nas cinco páginas;
 - um único telefone, e-mail e endereço da Área do Cliente;
-- versão `?v=` do CSS e do JavaScript em dia.
+- versão `?v=` do CSS e do JavaScript em dia;
+- todo redirecionamento leva a uma página que existe;
+- nenhuma chamada ao Google Fonts, e manifesto com o nome e a cor certos.
 
 Para rodar localmente: `bash scripts/verificar-site.sh`.
 
@@ -74,9 +81,18 @@ Para rodar localmente: `bash scripts/verificar-site.sh`.
 
 A produção está na Cloudflare, no domínio oficial https://bmccapital.com.br.
 
-**Cada commit na branch `main` é publicado automaticamente** pela Cloudflare (Workers Builds), em cerca de um minuto. Por isso, toda alteração deve ser validada antes de chegar à `main`. A publicação automática foi ligada em 03/11/2026.
+**Cada commit na branch `main` é publicado automaticamente** pela Cloudflare (Workers Builds), em cerca de um minuto, **se passar na verificação**. A publicação automática foi ligada em 03/11/2026.
 
-A configuração de publicação fica em `wrangler.jsonc`. O domínio é gerenciado pelo painel da Cloudflare, não por este arquivo.
+Configuração no painel (Worker → Configurações → Compilações):
+
+| Campo | Valor |
+|---|---|
+| Comando de build | `bash scripts/verificar-site.sh` |
+| Comando de implantação | `npx wrangler@4.157.0 deploy` (versão fixa) |
+
+A configuração de publicação fica em `wrangler.jsonc`: o site só responde no domínio oficial (sem `workers.dev`). O domínio, o `www` e o redirecionamento `www` → domínio principal são gerenciados pelo painel da Cloudflare, não por este arquivo.
+
+Depois de publicar, a Home (`/`) pode levar alguns minutos para mostrar a versão nova por causa do cache; as demais páginas atualizam em segundos.
 
 Para voltar a uma versão anterior: no painel da Cloudflare, abra o Worker, vá em **Deployments** e use **Rollback**.
 
