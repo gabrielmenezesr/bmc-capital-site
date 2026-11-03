@@ -96,6 +96,24 @@ emails=$(grep -ohE 'mailto:[^"]+' $PUB/*.html | sort -u | wc -l)
 portais=$(grep -ohE 'https://www\.difactweb\.com\.br/[^"]+' $PUB/*.html | sort -u | wc -l)
 [ "$portais" -eq 1 ] || falha "mais de um endereço da Área do Cliente (DiFactWeb)"
 
+# 8. Versão do CSS e do JS igual à impressão digital do arquivo
+#    Se o arquivo mudou e o ?v= não, o visitante continuaria com a cópia
+#    antiga no cache. Corrija com: bash scripts/atualizar-versao.sh
+for par in "assets/css/styles.css" "assets/js/main.js"; do
+  esperado=$(sha256sum "$PUB/$par" | cut -c1-8)
+  nome=$(basename "$par")
+  for p in $PAGINAS; do
+    arq="$PUB/$p"
+    [ -f "$arq" ] || continue
+    achados=$(grep -oE "/$par\?v=[0-9A-Za-z]+" "$arq" | sed -E 's/.*\?v=//' | sort -u)
+    if [ -z "$achados" ]; then
+      falha "$p: não carrega /$par com ?v="
+    elif [ "$achados" != "$esperado" ]; then
+      falha "$p: $nome?v=$(echo $achados) desatualizado (esperado $esperado). Rode: bash scripts/atualizar-versao.sh"
+    fi
+  done
+done
+
 if [ "$ERROS" -gt 0 ]; then
   echo "VERIFICAÇÃO REPROVADA: $ERROS erro(s). Nada foi publicado."
   exit 1

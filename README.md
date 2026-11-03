@@ -54,7 +54,21 @@ As URLs são servidas **sem a extensão `.html`**.
 - Os ativos compartilhados ficam em `public/assets/`.
 - Os redirecionamentos ficam em `public/_redirects`.
 
-O CSS e o JavaScript são carregados com um sufixo de versão (`?v=AAAAMMDD`) para invalidar o cache do navegador. **Ao alterar CSS ou JavaScript, atualize esse número nas cinco páginas HTML.**
+O CSS e o JavaScript são carregados com um sufixo de versão (`?v=`) igual à impressão digital do próprio arquivo, para invalidar o cache do navegador. **Ao alterar CSS ou JavaScript, rode `bash scripts/atualizar-versao.sh`**: ele atualiza as cinco páginas de uma vez.
+
+## Verificação antes de publicar
+
+`scripts/verificar-site.sh` roda antes de cada publicação. Se encontrar um problema, a versão **não** vai ao ar. Ele confere:
+
+- arquivos obrigatórios e configuração de publicação;
+- nenhum arquivo interno dentro de `public/`;
+- um `h1`, `title`, `description` e `lang` em cada página;
+- links internos que existem e nenhum link `http://`;
+- cabeçalho, rodapé e botão de WhatsApp iguais nas cinco páginas;
+- um único telefone, e-mail e endereço da Área do Cliente;
+- versão `?v=` do CSS e do JavaScript em dia.
+
+Para rodar localmente: `bash scripts/verificar-site.sh`.
 
 ## Publicação
 
