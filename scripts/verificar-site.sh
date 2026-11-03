@@ -59,6 +59,43 @@ for p in $PAGINAS; do
   done
 done
 
+# 6. Blocos repetidos iguais em todas as páginas
+#    O site não tem etapa de montagem: cabeçalho, rodapé e botão de WhatsApp
+#    são copiados em cada página. Uma cópia diferente das outras bloqueia a
+#    publicação. Diferenças só de espaço e a marcação da página ativa
+#    (aria-current) são ignoradas.
+normaliza() { tr '\n' ' ' | sed -E 's/ aria-current="page"//g; s/[[:space:]]+/ /g; s/> </></g'; }
+for bloco in header footer zap; do
+  assinaturas=""
+  for p in $PAGINAS; do
+    arq="$PUB/$p"
+    [ -f "$arq" ] || continue
+    case "$bloco" in
+      header) trecho=$(tr '\n' ' ' < "$arq" | grep -oE '<header.*</header>') ;;
+      footer) trecho=$(tr '\n' ' ' < "$arq" | grep -oE '<footer.*</footer>') ;;
+      zap)    trecho=$(tr '\n' ' ' < "$arq" | grep -oE '<a class="bmc-zap".*</a>') ;;
+    esac
+    [ -n "$trecho" ] || { falha "$p: bloco $bloco não encontrado"; continue; }
+    assinaturas="$assinaturas$(printf '%s' "$trecho" | normaliza | md5sum | cut -c1-8) $p"$'\n'
+  done
+  diferentes=$(printf '%s' "$assinaturas" | awk 'NF{print $1}' | sort -u | wc -l)
+  if [ "$diferentes" -gt 1 ]; then
+    falha "bloco $bloco difere entre páginas:"$'\n'"$assinaturas"
+  fi
+done
+
+# 7. Um único telefone, e-mail e link da Área do Cliente em todo o site
+numeros=$(grep -ohE 'wa\.me/[0-9]+' $PUB/*.html | sort -u)
+[ "$numeros" = "wa.me/5531983276361" ] || falha "número de WhatsApp diferente do oficial: $(echo $numeros)"
+sem_marca=$(grep -ohE 'https://wa\.me/[^"]+' $PUB/*.html | grep -vc 'BMC%20Capital%20Partners')
+[ "$sem_marca" -eq 0 ] || falha "$sem_marca link(s) de WhatsApp sem 'BMC Capital Partners' na mensagem"
+exibidos=$(grep -ohE '\+55 31 [0-9]{4,5}-[0-9]{4}' $PUB/*.html | sort -u)
+[ "$exibidos" = "+55 31 98327-6361" ] || falha "telefone exibido diferente do oficial: $(echo $exibidos)"
+emails=$(grep -ohE 'mailto:[^"]+' $PUB/*.html | sort -u | wc -l)
+[ "$emails" -eq 1 ] || falha "mais de um e-mail de contato: $(grep -ohE 'mailto:[^"]+' $PUB/*.html | sort -u | tr '\n' ' ')"
+portais=$(grep -ohE 'https://www\.difactweb\.com\.br/[^"]+' $PUB/*.html | sort -u | wc -l)
+[ "$portais" -eq 1 ] || falha "mais de um endereço da Área do Cliente (DiFactWeb)"
+
 if [ "$ERROS" -gt 0 ]; then
   echo "VERIFICAÇÃO REPROVADA: $ERROS erro(s). Nada foi publicado."
   exit 1
