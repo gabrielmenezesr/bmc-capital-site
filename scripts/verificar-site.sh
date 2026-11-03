@@ -22,6 +22,8 @@ done
 grep -q '"name": "billowing-term-57ef"' wrangler.jsonc || falha "wrangler.jsonc: nome do Worker diferente de billowing-term-57ef"
 grep -q '"directory": "./public"' wrangler.jsonc || falha "wrangler.jsonc: assets.directory deve ser ./public"
 grep -q '"not_found_handling": "404-page"' wrangler.jsonc || falha "wrangler.jsonc: not_found_handling deve ser 404-page"
+grep -q '"workers_dev": false' wrangler.jsonc || falha "wrangler.jsonc: workers_dev deve ser false (sem cópia do site em workers.dev)"
+if grep -qE '"routes?"[[:space:]]*:' wrangler.jsonc; then falha "wrangler.jsonc: não declarar routes (o domínio é gerenciado pelo painel)"; fi
 
 # 3. Nada interno dentro de public/
 proibidos=$(find "$PUB" \( -name '*.md' -o -name '.env*' -o -name 'wrangler*' -o -name '*.sh' -o -name '*.ps1' -o -name '.git' \) -print)

@@ -4,6 +4,10 @@
   // Precisa ser igual ao nome do Worker no painel da Cloudflare.
   "name": "billowing-term-57ef",
   "compatibility_date": "2026-11-01",
+  // O site só fica no domínio oficial: sem cópia em *.workers.dev
+  // e sem endereços públicos de pré-visualização.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     // Só esta pasta vai ao ar. README, configuração e .git ficam de fora.
     "directory": "./public",
