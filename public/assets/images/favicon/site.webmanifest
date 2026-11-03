@@ -1,10 +1,10 @@
 {
-  "name": "BMC Capital",
+  "name": "BMC Capital Partners",
   "short_name": "BMC Capital",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
-  "theme_color": "#06224D",
+  "theme_color": "#061A33",
   "icons": [
     {
       "src": "/assets/images/favicon/android-chrome-192x192.png",

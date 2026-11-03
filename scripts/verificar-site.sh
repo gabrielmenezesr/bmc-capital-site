@@ -114,6 +114,14 @@ for par in "assets/css/styles.css" "assets/js/main.js"; do
   done
 done
 
+# 9. Manifesto (nome e cor ao salvar o site na tela inicial)
+MANIFESTO="$PUB/assets/images/favicon/site.webmanifest"
+grep -q '"name": "BMC Capital Partners"' "$MANIFESTO" || falha "manifesto: name deve ser \"BMC Capital Partners\""
+cor_paginas=$(grep -ohE '<meta name="theme-color" content="#[0-9A-Fa-f]{6}"' $PUB/*.html | grep -oE '#[0-9A-Fa-f]{6}' | sort -u)
+cor_manifesto=$(grep -oE '"theme_color": "#[0-9A-Fa-f]{6}"' "$MANIFESTO" | grep -oE '#[0-9A-Fa-f]{6}')
+[ "$(echo "$cor_paginas" | wc -l)" -eq 1 ] || falha "theme-color diferente entre páginas: $(echo $cor_paginas)"
+[ "$cor_paginas" = "$cor_manifesto" ] || falha "theme_color do manifesto ($cor_manifesto) diferente do das páginas ($cor_paginas)"
+
 if [ "$ERROS" -gt 0 ]; then
   echo "VERIFICAÇÃO REPROVADA: $ERROS erro(s). Nada foi publicado."
   exit 1
