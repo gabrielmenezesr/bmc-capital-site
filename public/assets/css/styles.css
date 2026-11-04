@@ -1540,7 +1540,7 @@ ul { margin: 0; padding: 0; }
   --vidro-cabecalho: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74));
   --vidro-painel: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.84));
   --vidro-primario: rgba(13, 71, 161, 0.88);
-  --vidro-primario-hover: rgba(24, 93, 181, 0.9);
+  --vidro-primario-hover: rgba(24, 93, 181, 0.97);   /* 0,9 deixava o texto em 4,5:1 sobre o hero claro */
   --vidro-primario-ativo: rgba(8, 36, 69, 0.92);
   --vidro-claro: rgba(255, 255, 255, 0.6);
   --vidro-escuro: rgba(8, 36, 69, 0.9);
