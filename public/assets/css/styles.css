@@ -1549,8 +1549,9 @@ ul { margin: 0; padding: 0; }
   --vidro-transparente: rgba(255, 255, 255, 0.1);
   --vidro-transparente-hover: rgba(255, 255, 255, 0.2);
   --vidro-desabilitado: rgba(255, 255, 255, 0.35);
-  --vidro-verde: rgba(37, 211, 102, 0.9);
-  --vidro-verde-hover: rgba(29, 168, 81, 0.94);
+  /* Verde do WhatsApp escurecido para o ícone branco passar de 3:1 (aprovado em 04/11) */
+  --vidro-verde: rgba(24, 153, 74, 0.94);
+  --vidro-verde-hover: rgba(19, 128, 61, 0.96);
 
   /* Aro (borda de 1px) de cada superfície */
   --vidro-aro-barra: rgba(255, 255, 255, 0.6);
@@ -1749,8 +1750,8 @@ ul { margin: 0; padding: 0; }
     --vidro-transparente: var(--bmc-navy-900);
     --vidro-transparente-hover: var(--bmc-navy-950);
     --vidro-desabilitado: var(--bmc-white);
-    --vidro-verde: #25d366;
-    --vidro-verde-hover: #1da851;
+    --vidro-verde: #18994a;
+    --vidro-verde-hover: #13803d;
   }
 }
 @media (prefers-contrast: more) {
@@ -1790,7 +1791,7 @@ ul { margin: 0; padding: 0; }
     --vidro-transparente: var(--bmc-navy-900);
     --vidro-transparente-hover: var(--bmc-navy-950);
     --vidro-desabilitado: var(--bmc-white);
-    --vidro-verde: #25d366;
-    --vidro-verde-hover: #1da851;
+    --vidro-verde: #18994a;
+    --vidro-verde-hover: #13803d;
   }
 }
