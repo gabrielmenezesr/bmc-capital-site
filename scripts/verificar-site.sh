@@ -151,6 +151,24 @@ for f in OFL-IBM-Plex-Sans.txt OFL-Source-Serif-4.txt; do
   [ -f "$PUB/assets/fonts/$f" ] || falha "licença da fonte ausente: assets/fonts/$f"
 done
 
+# 12. Vidro (seção 14 do CSS): a versão sólida de quem pede menos transparência
+#     (14.4) e a do navegador sem desfoque (14.5) se repetem e precisam ser iguais.
+#     Se a seção 14 for apagada (desfazer o experimento), não há o que comparar.
+tokens_do_bloco() {
+  awk -v ini="$1" '
+    index($0, ini) == 1 { dentro = 1; nivel = 0 }
+    dentro {
+      if ($0 ~ /--vidro-[a-z-]+:/) { linha = $0; sub(/^[[:space:]]+/, "", linha); print linha }
+      nivel += gsub(/\{/, "{") - gsub(/\}/, "}")
+      if (nivel == 0 && $0 ~ /\}/) dentro = 0
+    }' "$PUB/assets/css/styles.css" | sort
+}
+solido_preferencia=$(tokens_do_bloco '@media (prefers-reduced-transparency: reduce)')
+solido_sem_desfoque=$(tokens_do_bloco '@supports not ((-webkit-backdrop-filter')
+if [ "$solido_preferencia" != "$solido_sem_desfoque" ]; then
+  falha "styles.css: versão sólida do vidro diferente entre 14.4 (preferências) e 14.5 (navegador sem desfoque)"
+fi
+
 if [ "$ERROS" -gt 0 ]; then
   echo "VERIFICAÇÃO REPROVADA: $ERROS erro(s). Nada foi publicado."
   exit 1

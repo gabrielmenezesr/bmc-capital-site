@@ -490,6 +490,11 @@ ul { margin: 0; padding: 0; }
 .bmc-link--on-dark { color: var(--bmc-white); }
 .bmc-link--on-dark:hover { color: var(--bmc-mist-100); }
 
+/* Sobre fundo escuro o anel azul de foco some (2:1): anel branco */
+.bmc-button--on-dark:focus-visible,
+.bmc-button--outline-on-dark:focus-visible,
+.bmc-link--on-dark:focus-visible { outline-color: var(--bmc-white); }
+
 .bmc-actions { display: flex; flex-wrap: wrap; gap: var(--bmc-space-3); }
 
 /* ============================================================
@@ -1153,7 +1158,8 @@ ul { margin: 0; padding: 0; }
   border-color: var(--bmc-white);
   color: var(--bmc-navy-950);
 }
-.bmc-hero--imersivo .bmc-button--secondary:focus-visible {
+/* Anel branco nos dois botões: o azul some sobre a foto escurecida */
+.bmc-hero--imersivo .bmc-button:focus-visible {
   outline-color: var(--bmc-white);
 }
 
@@ -1446,14 +1452,18 @@ ul { margin: 0; padding: 0; }
   border-radius: 50%;
   background: #25d366;
   color: var(--bmc-white);
-  box-shadow: 0 6px 18px rgba(6, 26, 51, 0.28);
+  --bmc-zap-sombra: 0 6px 18px rgba(6, 26, 51, 0.28);
+  box-shadow: var(--bmc-zap-sombra);
   transition: background-color var(--bmc-duration-fast) var(--bmc-ease),
               transform var(--bmc-duration-fast) var(--bmc-ease);
 }
 .bmc-zap:hover { background: #1da851; color: var(--bmc-white); transform: translateY(-2px); }
+/* Anel duplo: branco por dentro, navy por fora. O botão flutua sobre
+   fundos claros e escuros, e uma das duas cores sempre aparece. */
 .bmc-zap:focus-visible {
   outline: 3px solid var(--bmc-navy-950);
   outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--bmc-white), var(--bmc-zap-sombra);
 }
 .bmc-zap svg { width: 1.85rem; height: 1.85rem; fill: currentColor; }
 
@@ -1511,19 +1521,23 @@ ul { margin: 0; padding: 0; }
    de vidro, texto sempre legível.
    Contraria de propósito o design system, que proíbe transparência,
    desfoque, sombra e pílula em botões.
+   Ordem: 14.1 tokens · 14.2 barra do topo · 14.3 botões ·
+   14.4 acessibilidade · 14.5 navegador sem desfoque.
+   14.4 e 14.5 só trocam tokens; nenhum componente é reescrito lá.
    PARA DESFAZER: apague esta seção inteira (até o fim do arquivo).
-   Só CSS: funciona em Chrome, Safari (iPhone), Edge e Firefox.
-   Quem pede menos transparência ou mais contraste no sistema
-   recebe a versão sólida (14.3).
    ============================================================ */
+
+/* ---------- 14.1 Tokens ---------- */
 :root {
+  /* Material */
   --vidro-filtro: blur(6px) saturate(1.55) brightness(1.1) contrast(1.12);
   --vidro-reflexo: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 38%);
   --vidro-brilho: radial-gradient(60% 90% at 14% 0%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%);
   --vidro-luz-topo: inset 0 1px 0 rgba(255, 255, 255, 0.55);
   --vidro-raio: 999px;
 
-  --vidro-cabecalho: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.7));
+  /* Fundo de cada superfície (cor e opacidade) */
+  --vidro-cabecalho: linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.74));
   --vidro-painel: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.84));
   --vidro-primario: rgba(13, 71, 161, 0.88);
   --vidro-primario-hover: rgba(24, 93, 181, 0.9);
@@ -1534,14 +1548,30 @@ ul { margin: 0; padding: 0; }
   --vidro-branco-hover: rgba(255, 255, 255, 0.97);
   --vidro-transparente: rgba(255, 255, 255, 0.1);
   --vidro-transparente-hover: rgba(255, 255, 255, 0.2);
+  --vidro-desabilitado: rgba(255, 255, 255, 0.35);
   --vidro-verde: rgba(37, 211, 102, 0.9);
   --vidro-verde-hover: rgba(29, 168, 81, 0.94);
+
+  /* Aro (borda de 1px) de cada superfície */
+  --vidro-aro-barra: rgba(255, 255, 255, 0.6);
+  --vidro-aro-primario: rgba(255, 255, 255, 0.35);
+  --vidro-aro-primario-hover: rgba(255, 255, 255, 0.45);
+  --vidro-aro-primario-ativo: rgba(255, 255, 255, 0.25);
+  --vidro-aro-claro: rgba(6, 26, 51, 0.16);
+  --vidro-aro-escuro: rgba(255, 255, 255, 0.3);
+  --vidro-aro-branco: rgba(255, 255, 255, 0.7);
+  --vidro-aro-branco-hover: var(--bmc-white);
+  --vidro-aro-transparente: rgba(255, 255, 255, 0.45);
+  --vidro-aro-transparente-hover: rgba(255, 255, 255, 0.7);
+  --vidro-aro-verde: rgba(255, 255, 255, 0.45);
 }
 
-/* ---------- 14.1 Barra do topo ----------
+/* ---------- 14.2 Barra do topo ----------
    O vidro fica numa camada (::before), não no cabeçalho: assim o painel
    do menu móvel, que mora dentro do cabeçalho, também consegue desfocar
-   a página atrás dele. */
+   a página atrás dele. O cabeçalho (sticky, z-index 50) é o contexto de
+   empilhamento: o z-index -1 da camada não sai dele e fica abaixo da
+   logo, dos links e do botão. */
 .bmc-header {
   background: transparent;
   border-bottom-color: transparent;
@@ -1555,7 +1585,7 @@ ul { margin: 0; padding: 0; }
   background: var(--vidro-cabecalho);
   -webkit-backdrop-filter: var(--vidro-filtro);
   backdrop-filter: var(--vidro-filtro);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  border-bottom: 1px solid var(--vidro-aro-barra);
   box-shadow: 0 1px 0 rgba(6, 26, 51, 0.08), 0 10px 24px -18px rgba(6, 26, 51, 0.45);
 }
 @media (max-width: 800px) {
@@ -1563,11 +1593,13 @@ ul { margin: 0; padding: 0; }
     background: var(--vidro-painel);
     -webkit-backdrop-filter: var(--vidro-filtro);
     backdrop-filter: var(--vidro-filtro);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid var(--vidro-aro-barra);
   }
 }
 
-/* ---------- 14.2 Botões ---------- */
+/* ---------- 14.3 Botões ----------
+   Transição: a do design system (cor, fundo e aro em 120ms), sem
+   animar sombra nem filtro. */
 .bmc-button,
 .bmc-carrossel__btn {
   position: relative;
@@ -1590,49 +1622,56 @@ ul { margin: 0; padding: 0; }
 
 .bmc-button {
   border-radius: var(--vidro-raio);
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: var(--vidro-aro-primario);
   background: var(--vidro-reflexo), var(--vidro-primario);
   -webkit-backdrop-filter: var(--vidro-filtro);
   backdrop-filter: var(--vidro-filtro);
   box-shadow: var(--vidro-luz-topo), inset 0 -1px 0 rgba(6, 26, 51, 0.22),
               0 8px 22px -12px rgba(13, 71, 161, 0.6);
-  transition: border-color var(--bmc-duration-fast) var(--bmc-ease),
-              box-shadow var(--bmc-duration-fast) var(--bmc-ease),
-              color var(--bmc-duration-fast) var(--bmc-ease);
 }
 .bmc-button:hover {
-  border-color: rgba(255, 255, 255, 0.45);
+  border-color: var(--vidro-aro-primario-hover);
   background: var(--vidro-reflexo), var(--vidro-primario-hover);
   box-shadow: var(--vidro-luz-topo), inset 0 -1px 0 rgba(6, 26, 51, 0.22),
               0 10px 26px -10px rgba(13, 71, 161, 0.7);
 }
 .bmc-button:active {
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: var(--vidro-aro-primario-ativo);
   background: var(--vidro-reflexo), var(--vidro-primario-ativo);
+}
+
+/* Área do Cliente: já está sobre a barra de vidro. Desfocar de novo não
+   muda nenhum pixel (medido) e o tom translúcido deixava o texto em 5,1:1;
+   azul sólido dá 6,7:1. Só troca tokens, o desenho é o do primário. */
+.bmc-header .bmc-button {
+  --vidro-filtro: none;
+  --vidro-primario: var(--bmc-blue-700);
+  --vidro-primario-hover: var(--bmc-blue-600);
+  --vidro-primario-ativo: var(--bmc-navy-900);
 }
 
 /* Secundário: vidro claro com texto navy */
 .bmc-button--secondary {
-  border-color: rgba(6, 26, 51, 0.16);
+  border-color: var(--vidro-aro-claro);
   background: var(--vidro-reflexo), var(--vidro-claro);
   color: var(--bmc-navy-900);
   box-shadow: var(--vidro-luz-topo), 0 6px 18px -12px rgba(6, 26, 51, 0.45);
 }
 .bmc-button--secondary:hover {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--vidro-aro-escuro);
   background: var(--vidro-reflexo), var(--vidro-escuro);
   color: var(--bmc-white);
 }
 
 /* Sobre fundo navy: vidro branco */
 .bmc-button--on-dark {
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: var(--vidro-aro-branco);
   background: var(--vidro-reflexo), var(--vidro-branco);
   color: var(--bmc-navy-950);
   box-shadow: var(--vidro-luz-topo), 0 10px 26px -14px rgba(0, 0, 0, 0.55);
 }
 .bmc-button--on-dark:hover {
-  border-color: var(--bmc-white);
+  border-color: var(--vidro-aro-branco-hover);
   background: var(--vidro-reflexo), var(--vidro-branco-hover);
   color: var(--bmc-navy-950);
 }
@@ -1640,14 +1679,14 @@ ul { margin: 0; padding: 0; }
 /* Sobre fundo navy ou foto: vidro transparente com texto branco */
 .bmc-button--outline-on-dark,
 .bmc-hero--imersivo .bmc-button--secondary {
-  border-color: rgba(255, 255, 255, 0.45);
+  border-color: var(--vidro-aro-transparente);
   background: var(--vidro-reflexo), var(--vidro-transparente);
   color: var(--bmc-white);
   box-shadow: var(--vidro-luz-topo), 0 10px 26px -14px rgba(0, 0, 0, 0.55);
 }
 .bmc-button--outline-on-dark:hover,
 .bmc-hero--imersivo .bmc-button--secondary:hover {
-  border-color: rgba(255, 255, 255, 0.7);
+  border-color: var(--vidro-aro-transparente-hover);
   background: var(--vidro-reflexo), var(--vidro-transparente-hover);
   color: var(--bmc-white);
 }
@@ -1655,42 +1694,48 @@ ul { margin: 0; padding: 0; }
 /* Setas do carrossel: círculos de vidro claro */
 .bmc-carrossel__btn {
   border-radius: 50%;
-  border-color: rgba(6, 26, 51, 0.16);
+  border-color: var(--vidro-aro-claro);
   background: var(--vidro-reflexo), var(--vidro-claro);
   -webkit-backdrop-filter: var(--vidro-filtro);
   backdrop-filter: var(--vidro-filtro);
   box-shadow: var(--vidro-luz-topo), 0 6px 16px -10px rgba(6, 26, 51, 0.45);
 }
 .bmc-carrossel__btn:hover:not(:disabled) {
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: var(--vidro-aro-escuro);
   background: var(--vidro-reflexo), var(--vidro-escuro);
   color: var(--bmc-white);
 }
 .bmc-carrossel__btn:disabled {
   border-color: var(--bmc-stone-300);
-  background: rgba(255, 255, 255, 0.35);
+  background: var(--vidro-desabilitado);
   box-shadow: none;
 }
 .bmc-carrossel__btn:disabled::before { display: none; }
 
-/* Botão flutuante de WhatsApp: vidro verde */
+/* Botão flutuante de WhatsApp: vidro verde. A sombra vai pela variável
+   da seção 13.8, para o anel duplo de foco continuar somando a ela. */
 .bmc-zap {
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  --bmc-zap-sombra: var(--vidro-luz-topo), inset 0 -2px 6px rgba(6, 26, 51, 0.12),
+                    0 10px 24px -8px rgba(6, 26, 51, 0.4);
+  border: 1px solid var(--vidro-aro-verde);
   background: var(--vidro-reflexo), var(--vidro-verde);
   -webkit-backdrop-filter: var(--vidro-filtro);
   backdrop-filter: var(--vidro-filtro);
-  box-shadow: var(--vidro-luz-topo), inset 0 -2px 6px rgba(6, 26, 51, 0.12),
-              0 10px 24px -8px rgba(6, 26, 51, 0.4);
 }
 .bmc-zap:hover { background: var(--vidro-reflexo), var(--vidro-verde-hover); }
 
-/* ---------- 14.3 Versão sólida ----------
-   Para quem ativou "reduzir transparência" ou "aumentar contraste"
-   no sistema, e para navegadores sem desfoque de fundo. */
+/* ---------- 14.4 Acessibilidade ----------
+   Quem pede menos transparência ou mais contraste no sistema recebe a
+   versão sólida: as mesmas cores da BMC, opacas, sem desfoque e sem
+   reflexo. Com mais contraste, além disso, os aros ganham a cor do texto
+   de cada controle e a luz interna sai. Movimento reduzido já vale para
+   o site todo (seção 1: transições de 0,01ms).
+   O bloco sólido se repete igual em 14.5; scripts/verificar-site.sh
+   confere que os dois continuam idênticos. */
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
   :root {
     --vidro-filtro: none;
-    --vidro-reflexo: linear-gradient(transparent, transparent);
+    --vidro-reflexo: none;
     --vidro-brilho: none;
     --vidro-cabecalho: var(--bmc-white);
     --vidro-painel: var(--bmc-white);
@@ -1703,13 +1748,49 @@ ul { margin: 0; padding: 0; }
     --vidro-branco-hover: var(--bmc-mist-100);
     --vidro-transparente: var(--bmc-navy-900);
     --vidro-transparente-hover: var(--bmc-navy-950);
+    --vidro-desabilitado: var(--bmc-white);
     --vidro-verde: #25d366;
     --vidro-verde-hover: #1da851;
   }
 }
+@media (prefers-contrast: more) {
+  :root {
+    --vidro-luz-topo: inset 0 0 0 transparent;
+    --vidro-aro-barra: currentColor;
+    --vidro-aro-primario: currentColor;
+    --vidro-aro-primario-hover: currentColor;
+    --vidro-aro-primario-ativo: currentColor;
+    --vidro-aro-claro: currentColor;
+    --vidro-aro-escuro: currentColor;
+    --vidro-aro-branco: currentColor;
+    --vidro-aro-branco-hover: currentColor;
+    --vidro-aro-transparente: currentColor;
+    --vidro-aro-transparente-hover: currentColor;
+    --vidro-aro-verde: currentColor;
+  }
+}
+
+/* ---------- 14.5 Navegador sem desfoque de fundo ----------
+   Sem desfoque, a transparência só atrapalharia a leitura: mesma versão
+   sólida de 14.4, para todos os componentes e estados. */
 @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   :root {
-    --vidro-cabecalho: rgba(255, 255, 255, 0.97);
+    --vidro-filtro: none;
+    --vidro-reflexo: none;
+    --vidro-brilho: none;
+    --vidro-cabecalho: var(--bmc-white);
     --vidro-painel: var(--bmc-white);
+    --vidro-primario: var(--bmc-blue-700);
+    --vidro-primario-hover: var(--bmc-blue-600);
+    --vidro-primario-ativo: var(--bmc-navy-900);
+    --vidro-claro: var(--bmc-white);
+    --vidro-escuro: var(--bmc-navy-900);
+    --vidro-branco: var(--bmc-white);
+    --vidro-branco-hover: var(--bmc-mist-100);
+    --vidro-transparente: var(--bmc-navy-900);
+    --vidro-transparente-hover: var(--bmc-navy-950);
+    --vidro-desabilitado: var(--bmc-white);
+    --vidro-verde: #25d366;
+    --vidro-verde-hover: #1da851;
   }
 }
