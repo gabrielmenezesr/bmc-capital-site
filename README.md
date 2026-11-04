@@ -61,6 +61,12 @@ As URLs são servidas **sem a extensão `.html`**.
 
 O CSS e o JavaScript são carregados com um sufixo de versão (`?v=`) igual à impressão digital do próprio arquivo, para invalidar o cache do navegador. **Ao alterar CSS ou JavaScript, rode `bash scripts/atualizar-versao.sh`**: ele atualiza as cinco páginas de uma vez.
 
+## Experimento de vidro (04/11/2026)
+
+Barras e botões em vidro translúcido, no estilo "Liquid Glass" do iOS 26, feito só com CSS (`backdrop-filter`). Está na **seção 14 do `styles.css`**. Para desfazer, apague a seção inteira e rode `bash scripts/atualizar-versao.sh`. Quem ativa "reduzir transparência" ou "aumentar contraste" no sistema recebe a versão sólida.
+
+O logo (`bmc-logo.png`) passou a ter fundo transparente, para não aparecer como um retângulo sobre o vidro. Sobre fundo branco ele é idêntico ao anterior.
+
 ## Verificação antes de publicar
 
 `scripts/verificar-site.sh` roda antes de cada publicação. Se encontrar um problema, a versão **não** vai ao ar. Ele confere:

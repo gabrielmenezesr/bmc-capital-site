@@ -1501,3 +1501,215 @@ ul { margin: 0; padding: 0; }
 @media (max-width: 560px) {
   .bmc-carrossel__trilho { grid-auto-columns: 100%; }
 }
+
+/* ============================================================
+   14. VIDRO — experimento de 04/11/2026
+   Barras e botões em vidro translúcido, no estilo "Liquid Glass"
+   do iOS 26 (receita de produção: desfoque leve, saturação 1,55,
+   brilho 1,10, contraste 1,12, reflexo no topo, aro fino e sombra
+   baixa). Vidro só onde há navegação ou ação, nunca vidro dentro
+   de vidro, texto sempre legível.
+   Contraria de propósito o design system, que proíbe transparência,
+   desfoque, sombra e pílula em botões.
+   PARA DESFAZER: apague esta seção inteira (até o fim do arquivo).
+   Só CSS: funciona em Chrome, Safari (iPhone), Edge e Firefox.
+   Quem pede menos transparência ou mais contraste no sistema
+   recebe a versão sólida (14.3).
+   ============================================================ */
+:root {
+  --vidro-filtro: blur(6px) saturate(1.55) brightness(1.1) contrast(1.12);
+  --vidro-reflexo: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 38%);
+  --vidro-brilho: radial-gradient(60% 90% at 14% 0%, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0) 70%);
+  --vidro-luz-topo: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --vidro-raio: 999px;
+
+  --vidro-cabecalho: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.7));
+  --vidro-painel: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.84));
+  --vidro-primario: rgba(13, 71, 161, 0.88);
+  --vidro-primario-hover: rgba(24, 93, 181, 0.9);
+  --vidro-primario-ativo: rgba(8, 36, 69, 0.92);
+  --vidro-claro: rgba(255, 255, 255, 0.6);
+  --vidro-escuro: rgba(8, 36, 69, 0.9);
+  --vidro-branco: rgba(255, 255, 255, 0.9);
+  --vidro-branco-hover: rgba(255, 255, 255, 0.97);
+  --vidro-transparente: rgba(255, 255, 255, 0.1);
+  --vidro-transparente-hover: rgba(255, 255, 255, 0.2);
+  --vidro-verde: rgba(37, 211, 102, 0.9);
+  --vidro-verde-hover: rgba(29, 168, 81, 0.94);
+}
+
+/* ---------- 14.1 Barra do topo ----------
+   O vidro fica numa camada (::before), não no cabeçalho: assim o painel
+   do menu móvel, que mora dentro do cabeçalho, também consegue desfocar
+   a página atrás dele. */
+.bmc-header {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+.bmc-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -1px;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--vidro-cabecalho);
+  -webkit-backdrop-filter: var(--vidro-filtro);
+  backdrop-filter: var(--vidro-filtro);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 1px 0 rgba(6, 26, 51, 0.08), 0 10px 24px -18px rgba(6, 26, 51, 0.45);
+}
+@media (max-width: 800px) {
+  .bmc-nav {
+    background: var(--vidro-painel);
+    -webkit-backdrop-filter: var(--vidro-filtro);
+    backdrop-filter: var(--vidro-filtro);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ---------- 14.2 Botões ---------- */
+.bmc-button,
+.bmc-carrossel__btn {
+  position: relative;
+  isolation: isolate;
+}
+.bmc-zap { isolation: isolate; }
+
+/* Brilho de canto, por baixo do texto e do ícone */
+.bmc-button::before,
+.bmc-carrossel__btn::before,
+.bmc-zap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: var(--vidro-brilho);
+}
+
+.bmc-button {
+  border-radius: var(--vidro-raio);
+  border-color: rgba(255, 255, 255, 0.35);
+  background: var(--vidro-reflexo), var(--vidro-primario);
+  -webkit-backdrop-filter: var(--vidro-filtro);
+  backdrop-filter: var(--vidro-filtro);
+  box-shadow: var(--vidro-luz-topo), inset 0 -1px 0 rgba(6, 26, 51, 0.22),
+              0 8px 22px -12px rgba(13, 71, 161, 0.6);
+  transition: border-color var(--bmc-duration-fast) var(--bmc-ease),
+              box-shadow var(--bmc-duration-fast) var(--bmc-ease),
+              color var(--bmc-duration-fast) var(--bmc-ease);
+}
+.bmc-button:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: var(--vidro-reflexo), var(--vidro-primario-hover);
+  box-shadow: var(--vidro-luz-topo), inset 0 -1px 0 rgba(6, 26, 51, 0.22),
+              0 10px 26px -10px rgba(13, 71, 161, 0.7);
+}
+.bmc-button:active {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: var(--vidro-reflexo), var(--vidro-primario-ativo);
+}
+
+/* Secundário: vidro claro com texto navy */
+.bmc-button--secondary {
+  border-color: rgba(6, 26, 51, 0.16);
+  background: var(--vidro-reflexo), var(--vidro-claro);
+  color: var(--bmc-navy-900);
+  box-shadow: var(--vidro-luz-topo), 0 6px 18px -12px rgba(6, 26, 51, 0.45);
+}
+.bmc-button--secondary:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--vidro-reflexo), var(--vidro-escuro);
+  color: var(--bmc-white);
+}
+
+/* Sobre fundo navy: vidro branco */
+.bmc-button--on-dark {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: var(--vidro-reflexo), var(--vidro-branco);
+  color: var(--bmc-navy-950);
+  box-shadow: var(--vidro-luz-topo), 0 10px 26px -14px rgba(0, 0, 0, 0.55);
+}
+.bmc-button--on-dark:hover {
+  border-color: var(--bmc-white);
+  background: var(--vidro-reflexo), var(--vidro-branco-hover);
+  color: var(--bmc-navy-950);
+}
+
+/* Sobre fundo navy ou foto: vidro transparente com texto branco */
+.bmc-button--outline-on-dark,
+.bmc-hero--imersivo .bmc-button--secondary {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: var(--vidro-reflexo), var(--vidro-transparente);
+  color: var(--bmc-white);
+  box-shadow: var(--vidro-luz-topo), 0 10px 26px -14px rgba(0, 0, 0, 0.55);
+}
+.bmc-button--outline-on-dark:hover,
+.bmc-hero--imersivo .bmc-button--secondary:hover {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: var(--vidro-reflexo), var(--vidro-transparente-hover);
+  color: var(--bmc-white);
+}
+
+/* Setas do carrossel: círculos de vidro claro */
+.bmc-carrossel__btn {
+  border-radius: 50%;
+  border-color: rgba(6, 26, 51, 0.16);
+  background: var(--vidro-reflexo), var(--vidro-claro);
+  -webkit-backdrop-filter: var(--vidro-filtro);
+  backdrop-filter: var(--vidro-filtro);
+  box-shadow: var(--vidro-luz-topo), 0 6px 16px -10px rgba(6, 26, 51, 0.45);
+}
+.bmc-carrossel__btn:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--vidro-reflexo), var(--vidro-escuro);
+  color: var(--bmc-white);
+}
+.bmc-carrossel__btn:disabled {
+  border-color: var(--bmc-stone-300);
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: none;
+}
+.bmc-carrossel__btn:disabled::before { display: none; }
+
+/* Botão flutuante de WhatsApp: vidro verde */
+.bmc-zap {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: var(--vidro-reflexo), var(--vidro-verde);
+  -webkit-backdrop-filter: var(--vidro-filtro);
+  backdrop-filter: var(--vidro-filtro);
+  box-shadow: var(--vidro-luz-topo), inset 0 -2px 6px rgba(6, 26, 51, 0.12),
+              0 10px 24px -8px rgba(6, 26, 51, 0.4);
+}
+.bmc-zap:hover { background: var(--vidro-reflexo), var(--vidro-verde-hover); }
+
+/* ---------- 14.3 Versão sólida ----------
+   Para quem ativou "reduzir transparência" ou "aumentar contraste"
+   no sistema, e para navegadores sem desfoque de fundo. */
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :root {
+    --vidro-filtro: none;
+    --vidro-reflexo: linear-gradient(transparent, transparent);
+    --vidro-brilho: none;
+    --vidro-cabecalho: var(--bmc-white);
+    --vidro-painel: var(--bmc-white);
+    --vidro-primario: var(--bmc-blue-700);
+    --vidro-primario-hover: var(--bmc-blue-600);
+    --vidro-primario-ativo: var(--bmc-navy-900);
+    --vidro-claro: var(--bmc-white);
+    --vidro-escuro: var(--bmc-navy-900);
+    --vidro-branco: var(--bmc-white);
+    --vidro-branco-hover: var(--bmc-mist-100);
+    --vidro-transparente: var(--bmc-navy-900);
+    --vidro-transparente-hover: var(--bmc-navy-950);
+    --vidro-verde: #25d366;
+    --vidro-verde-hover: #1da851;
+  }
+}
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  :root {
+    --vidro-cabecalho: rgba(255, 255, 255, 0.97);
+    --vidro-painel: var(--bmc-white);
+  }
+}
